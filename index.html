@@ -1,0 +1,2857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EUPHORIA · welcome</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --chill:           #d4e4f7;
+            --chill-deep:      #b8d0ee;
+            --party:           #ffd6e8;
+            --party-deep:      #ffbad8;
+            --heartbroken:     #f7d4d4;
+            --heartbroken-deep:#f0b8b8;
+            --energetic:       #ffe8cc;
+            --energetic-deep:  #ffd4a8;
+            --travelling:      #d4f0e8;
+            --travelling-deep: #b8e4d4;
+            --text:            #1c1a2e;
+            --light-text:      #6b6880;
+            --faint-text:      #a09cb8;
+            --bg:              #f9f7ff;
+            --surface:         #ffffff;
+            --accent:          #8b6fa8;
+            --accent-warm:     #c9847a;
+            --accent-light:    rgba(139, 111, 168, 0.12);
+            --border:          rgba(60,40,100,0.08);
+            --shadow-sm:       0 2px 8px rgba(80,60,120,0.06);
+            --shadow-md:       0 6px 24px rgba(80,60,120,0.1);
+            --shadow-lg:       0 16px 48px rgba(80,60,120,0.14);
+
+            /* Hero gradient palette */
+            --hero-lavender:   #e8e0f8;
+            --hero-blue:       #d0e4f8;
+            --hero-peach:      #fce8da;
+            --hero-rose:       #f8dcea;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* ── Grain overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
+            opacity: 0.028;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── Blobs (landing) ── */
+        .blob-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0;
+            animation: blobFloat 12s ease-in-out infinite, blobFadeIn 2s ease forwards;
+        }
+
+        .blob-1 { width:420px;height:420px;background:var(--chill);top:-120px;left:-100px;animation-delay:0s,0.3s; }
+        .blob-2 { width:300px;height:300px;background:var(--party);bottom:-60px;right:-80px;animation-delay:3s,0.6s; }
+        .blob-3 { width:200px;height:200px;background:var(--travelling);bottom:20%;left:5%;animation-delay:6s,0.9s; }
+        .blob-4 { width:160px;height:160px;background:var(--energetic);top:20%;right:8%;animation-delay:9s,1.2s; }
+
+        @keyframes blobFadeIn { to { opacity: 0.55; } }
+        @keyframes blobFloat {
+            0%, 100% { transform: translate(0,0) scale(1); }
+            33%       { transform: translate(12px,-18px) scale(1.03); }
+            66%       { transform: translate(-8px,12px) scale(0.97); }
+        }
+
+        /* ── Landing page ── */
+        #landing-page {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .eyebrow {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--light-text);
+            margin-bottom: 1.4rem;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeUp 0.7s ease forwards 0.4s;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(4rem, 12vw, 7rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeUp 0.8s ease forwards 0.65s;
+        }
+
+        .subtitle {
+            font-family: 'Inter', sans-serif;
+            color: #4a4760;
+            font-size: 0.9rem;
+            line-height: 1.75;
+            max-width: 340px;
+            margin: 0 auto 2rem;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeUp 0.8s ease forwards 0.85s;
+            font-weight: 400;
+        }
+
+        .divider {
+            width: 32px;
+            height: 1px;
+            background: rgba(100,80,160,0.2);
+            margin: 0 auto 2rem;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards 1.05s;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.9rem;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeUp 0.8s ease forwards 1.15s;
+        }
+
+        .name-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--light-text);
+        }
+
+        .name-input {
+            background: white;
+            border: 1px solid rgba(100,80,160,0.14);
+            border-radius: 50px;
+            padding: 0.7rem 1.6rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text);
+            width: 260px;
+            text-align: center;
+            outline: none;
+            box-shadow: 0 2px 10px rgba(80,60,140,0.06);
+            transition: all 0.25s ease;
+        }
+
+        .name-input::placeholder { color: #b0aac8; font-weight: 400; }
+        .name-input:focus {
+            border-color: rgba(139,111,168,0.4);
+            box-shadow: 0 0 0 3px rgba(139,111,168,0.1), 0 4px 16px rgba(80,60,140,0.1);
+            transform: translateY(-1px);
+        }
+
+        .dive-btn {
+            background: var(--text);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.72rem 2.2rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.84rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 12px rgba(28,26,46,0.18);
+        }
+
+        .dive-btn:hover {
+            background: #2a2440;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(28,26,46,0.24);
+        }
+
+        .mood-dots {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 2.2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards 1.6s;
+        }
+
+        .mood-dot { width:8px;height:8px;border-radius:50%; }
+        .mood-dot:nth-child(1) { background: #a8c8f0; }
+        .mood-dot:nth-child(2) { background: #f0a8c8; }
+        .mood-dot:nth-child(3) { background: #f0a8a8; }
+        .mood-dot:nth-child(4) { background: #f0c8a0; }
+        .mood-dot:nth-child(5) { background: #a0d8c8; }
+
+        #landing-page.exiting { animation: pageExit 0.8s ease forwards; }
+        @keyframes pageExit { 0%{opacity:1;transform:scale(1)} 100%{opacity:0;transform:scale(1.03)} }
+        @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeIn { to { opacity:1; } }
+
+        /* ════════════════════════════════════════════
+           MAIN CONTENT — REDESIGNED
+        ════════════════════════════════════════════ */
+
+        #main-content {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s;
+            padding-bottom: 100px;
+            background:
+                radial-gradient(ellipse 90% 55% at 8% 0%,   rgba(220, 208, 252, 0.72) 0%, transparent 55%),
+                radial-gradient(ellipse 70% 50% at 92% 12%,  rgba(192, 222, 252, 0.60) 0%, transparent 52%),
+                radial-gradient(ellipse 60% 45% at 50% 105%, rgba(252, 220, 200, 0.65) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 40% at 85% 70%,  rgba(248, 220, 234, 0.50) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 35% at 18% 80%,  rgba(208, 228, 252, 0.45) 0%, transparent 50%),
+                #f5f3ff;
+            background-attachment: fixed;
+        }
+
+        #main-content.visible { opacity:1; transform:translateY(0); }
+
+        #main-content::before {
+            content: '';
+            position: fixed;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(210,195,255,0.38) 0%, transparent 65%);
+            top: -260px;
+            right: -200px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #main-content::after {
+            content: '';
+            position: fixed;
+            width: 580px;
+            height: 580px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(252,210,186,0.35) 0%, transparent 65%);
+            bottom: -200px;
+            left: -150px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── Navbar ── */
+
+        nav {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .nav-inner {
+            pointer-events: all;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            border: 1px solid rgba(255,255,255,0.95);
+            border-radius: 50px;
+            padding: 0.45rem 0.6rem;
+            box-shadow:
+                0 8px 32px rgba(100,80,160,0.12),
+                0 2px 8px rgba(100,80,160,0.08),
+                inset 0 1px 0 rgba(255,255,255,1),
+                inset 0 -1px 0 rgba(200,190,240,0.15);
+        }
+
+        .nav-brand {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            padding: 0.28rem 1rem 0.28rem 0.6rem;
+            margin-right: 0.4rem;
+            border-right: 1px solid rgba(120,100,180,0.12);
+            white-space: nowrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--light-text);
+            font-size: 0.76rem;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.03em;
+            padding: 0.42rem 0.9rem;
+            border-radius: 50px;
+            transition: all 0.22s ease;
+            white-space: nowrap;
+        }
+
+        nav a:hover { color: var(--text); background: rgba(120,100,180,0.07); }
+        nav a.active {
+            color: var(--accent);
+            background: rgba(139,111,168,0.1);
+            font-weight: 600;
+        }
+
+        nav a[href="#chill"]:hover        { background: rgba(192,222,248,0.55); color: #2d5a8a; }
+        nav a[href="#party"]:hover        { background: rgba(248,210,230,0.55); color: #a83d71; }
+        nav a[href="#heartbroken"]:hover  { background: rgba(248,210,210,0.55); color: #a83d3d; }
+        nav a[href="#energetic"]:hover    { background: rgba(252,220,180,0.55); color: #b86f00; }
+        nav a[href="#travelling"]:hover   { background: rgba(192,240,218,0.55); color: #1a7a5a; }
+
+        /* ── Hero Header ── */
+
+        header {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 3rem 2rem 0;
+            max-width: 960px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .header-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #5c4490;
+            margin-bottom: 1.2rem;
+            background: rgba(139,111,168,0.16);
+            padding: 0.32rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(139,111,168,0.28);
+            box-shadow: 0 1px 4px rgba(100,80,160,0.08);
+        }
+
+        .header-eyebrow::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #8b6fa8;
+            opacity: 0.9;
+            flex-shrink: 0;
+        }
+
+        .main-h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.8rem, 8.5vw, 5.8rem);
+            font-weight: 800;
+            line-height: 1.25;
+            letter-spacing: -0.04em;
+            margin: 0 auto;
+            display: block;
+            background: linear-gradient(
+                155deg,
+                #2e2260 0%,
+                #6040a8 28%,
+                #9560a0 56%,
+                #be6e88 78%,
+                #d08860 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .main-h1-sub {
+            display: none;
+        }
+
+        .subtitle-main {
+            font-family: 'Inter', sans-serif;
+            color: #3d3858;
+            font-size: 0.875rem;
+            line-height: 1.75;
+            max-width: 300px;
+            margin: 1.2rem auto 0;
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+
+        .header-rule {
+            width: 1px;
+            height: 32px;
+            background: linear-gradient(to bottom, rgba(139,111,168,0.35), transparent);
+            margin: 1.6rem auto 0;
+        }
+
+        /* ── Mood picker ── */
+
+        .mood-picker {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 1.4rem 2rem 3rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .mood-picker-question {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #7a749a;
+            margin-bottom: 1rem;
+        }
+
+        .mood-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.55rem;
+            flex-wrap: wrap;
+        }
+
+        .mood-btn {
+            background: rgba(255,255,255,0.78);
+            border: 1px solid rgba(139,111,168,0.14);
+            border-radius: 50px;
+            padding: 0.48rem 1.2rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: #5a5478;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                0 1px 4px rgba(100,80,160,0.06),
+                inset 0 1px 0 rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.02em;
+        }
+
+        .mood-btn:hover {
+            color: var(--text);
+            transform: translateY(-3px);
+            box-shadow:
+                0 8px 22px rgba(100,80,160,0.15),
+                0 2px 6px rgba(100,80,160,0.1);
+        }
+
+        .btn-chill:hover       { background: rgba(192,222,252,0.88); border-color: #96c4f0; color: #1e4d80; }
+        .btn-party:hover       { background: rgba(252,210,232,0.88); border-color: #f0a4c4; color: #962c62; }
+        .btn-heartbroken:hover { background: rgba(252,210,210,0.88); border-color: #f0a4a4; color: #962c2c; }
+        .btn-energetic:hover   { background: rgba(255,228,192,0.88); border-color: #f0c49a; color: #a85e00; }
+        .btn-travelling:hover  { background: rgba(192,240,218,0.88); border-color: #96d8b8; color: #12693f; }
+
+        /* ── Mood sections ── */
+
+        .mood-section {
+            position: relative;
+            z-index: 1;
+            padding: 0 1.5rem 1.5rem;
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .mood-section-inner {
+            background: rgba(255,255,255,0.52);
+            backdrop-filter: blur(16px) saturate(160%);
+            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            border: 1px solid rgba(255,255,255,0.82);
+            border-radius: 20px;
+            padding: 2.5rem 2.5rem 2.8rem;
+            box-shadow:
+                0 4px 24px rgba(100,80,180,0.05),
+                0 1px 4px rgba(100,80,180,0.04),
+                inset 0 1px 0 rgba(255,255,255,0.95);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .mood-section-inner:hover {
+            box-shadow:
+                0 10px 44px rgba(100,80,180,0.09),
+                0 2px 8px rgba(100,80,180,0.05),
+                inset 0 1px 0 rgba(255,255,255,0.95);
+        }
+
+        #chill       .mood-section-inner { border-top: 3px solid rgba(140,188,240,0.65); }
+        #party       .mood-section-inner { border-top: 3px solid rgba(240,148,196,0.65); }
+        #heartbroken .mood-section-inner { border-top: 3px solid rgba(240,148,148,0.65); }
+        #energetic   .mood-section-inner { border-top: 3px solid rgba(240,188,130,0.65); }
+        #travelling  .mood-section-inner { border-top: 3px solid rgba(130,210,180,0.65); }
+
+        .mood-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .mood-section h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1;
+        }
+
+        #chill       h2 { color: #1e4d80; }
+        #party       h2 { color: #962c62; }
+        #heartbroken h2 { color: #8c2828; }
+        #energetic   h2 { color: #a85e00; }
+        #travelling  h2 { color: #12693f; }
+
+        .mood-desc {
+            color: var(--faint-text);
+            font-size: 0.82rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            padding-left: 1rem;
+            border-left: 1px solid rgba(120,100,180,0.12);
+        }
+
+        .mood-count {
+            margin-left: auto;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: var(--faint-text);
+            text-transform: uppercase;
+        }
+
+        /* ── Song grid ── */
+
+        .song-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(192px, 1fr));
+            gap: 1.1rem;
+        }
+
+        /* ── Card base ── */
+        .song-card {
+            background: rgba(255,255,255,0.92);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.95);
+            box-shadow:
+                0 1px 2px rgba(60,40,120,0.06),
+                0 4px 12px rgba(60,40,120,0.07),
+                0 8px 24px rgba(60,40,120,0.05);
+            transition:
+                transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .song-card:hover {
+            transform: translateY(-7px) scale(1.012);
+            border-color: rgba(255,255,255,1);
+            box-shadow:
+                0 2px 4px rgba(60,40,120,0.06),
+                0 10px 28px rgba(60,40,120,0.12),
+                0 24px 48px rgba(60,40,120,0.08),
+                0 0 0 1px rgba(139,111,168,0.08);
+        }
+
+        .song-card.playing {
+            border-color: rgba(139,111,168,0.45);
+            box-shadow:
+                0 0 0 2px rgba(139,111,168,0.5),
+                0 8px 24px rgba(139,111,168,0.18),
+                0 20px 40px rgba(60,40,120,0.1);
+            transform: translateY(-5px) scale(1.008);
+        }
+
+        .song-card::before { display: none; }
+
+        .cover-wrap {
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .album-cover {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .song-card:hover .album-cover {
+            transform: scale(1.07);
+        }
+
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(20,16,40,0) 0%,
+                rgba(20,16,40,0) 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .song-card:hover .play-overlay {
+            background: linear-gradient(
+                to top,
+                rgba(20,16,40,0.55) 0%,
+                rgba(20,16,40,0.18) 55%,
+                rgba(20,16,40,0.06) 100%
+            );
+        }
+
+        .song-card.playing .play-overlay {
+            background: linear-gradient(
+                to top,
+                rgba(20,16,40,0.45) 0%,
+                rgba(20,16,40,0.14) 55%,
+                rgba(20,16,40,0.04) 100%
+            );
+        }
+
+        .play-overlay-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.97);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            opacity: 0;
+            transform: scale(0.72) translateY(6px);
+            transition:
+                opacity 0.25s ease,
+                transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding-left: 3px;
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.22),
+                0 6px 20px rgba(0,0,0,0.16);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -22px;
+            margin-left: -22px;
+        }
+
+        .song-card:hover .play-overlay-icon,
+        .song-card.playing .play-overlay-icon {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .song-card.playing .play-overlay-icon::after {
+            content: '';
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.55);
+            animation: pulse-ring 2s ease-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0%   { transform: scale(1);   opacity: 0.7; }
+            100% { transform: scale(1.9); opacity: 0; }
+        }
+
+        .song-info {
+            padding: 1rem 1.15rem 1.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mood-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.28rem;
+            padding: 0.18rem 0.6rem;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+            width: fit-content;
+        }
+
+        #chill       .mood-tag { background: rgba(190,218,252,0.5);  color: #1a4570; }
+        #party       .mood-tag { background: rgba(255,195,225,0.5);  color: #8a2258; }
+        #heartbroken .mood-tag { background: rgba(248,195,195,0.5);  color: #7a1e1e; }
+        #energetic   .mood-tag { background: rgba(255,220,170,0.5);  color: #8c4a00; }
+        #travelling  .mood-tag { background: rgba(185,238,215,0.5);  color: #0e5c35; }
+
+        .mood-dot-small {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+
+        .song-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0.28rem;
+            color: #1c1a2e;
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .artist-name {
+            font-family: 'Inter', sans-serif;
+            color: #9490b0;
+            font-size: 0.76rem;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ── Now playing bar ── */
+
+        #now-playing-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 300;
+            padding: 0 1.5rem 1.2rem;
+            transform: translateY(120%);
+            transition: transform 0.4s cubic-bezier(0.34, 1.3, 0.64, 1);
+            pointer-events: none;
+        }
+
+        #now-playing-bar.visible {
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .np-inner {
+            background: rgba(22,20,28,0.93);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 18px;
+            padding: 0.9rem 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 -1px 0 rgba(255,255,255,0.04), 0 16px 48px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.2);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .np-info { min-width: 160px; }
+
+        #np-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.01em;
+        }
+
+        #np-artist {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.74rem;
+            color: rgba(255,255,255,0.45);
+            margin-top: 0.1rem;
+            font-weight: 400;
+        }
+
+        #np-controls button {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.88);
+            padding: 0.45rem 0.65rem;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        #np-controls button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.08);
+        }
+
+        #progress-wrap {
+            flex: 2;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        #progress {
+            flex: 1;
+            height: 3px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255,255,255,0.14);
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        #progress::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 13px;
+            height: 13px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255,255,255,0.4);
+            transition: transform 0.15s ease;
+        }
+
+        #progress:hover::-webkit-slider-thumb { transform: scale(1.3); }
+
+        #time-current, #time-total {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.4);
+            min-width: 32px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .np-wave {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            margin-left: auto;
+        }
+
+        .np-wave span {
+            display: block;
+            width: 2.5px;
+            border-radius: 2px;
+            background: var(--accent);
+            animation: waveBar 1s ease-in-out infinite;
+        }
+
+        .np-wave span:nth-child(1) { height: 8px; animation-delay: 0s; }
+        .np-wave span:nth-child(2) { height: 16px; animation-delay: 0.15s; }
+        .np-wave span:nth-child(3) { height: 12px; animation-delay: 0.3s; }
+        .np-wave span:nth-child(4) { height: 20px; animation-delay: 0.1s; }
+        .np-wave span:nth-child(5) { height: 10px; animation-delay: 0.25s; }
+
+        @keyframes waveBar {
+            0%, 100% { transform: scaleY(0.4); opacity: 0.6; }
+            50%       { transform: scaleY(1);   opacity: 1; }
+        }
+
+        .np-wave.paused span { animation-play-state: paused; transform: scaleY(0.4); opacity: 0.4; }
+
+        /* ── Footer ── */
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            margin: 1rem 1.5rem 0;
+        }
+
+        .footer-inner {
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.7);
+            border-radius: 16px;
+            padding: 2rem 2rem 1.8rem;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+        }
+
+        .footer-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--light-text);
+            margin-bottom: 1.2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .social-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.6);
+            transition: all 0.2s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--text);
+            background: rgba(255,255,255,0.9);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+        }
+
+        .footer-note {
+            color: var(--faint-text);
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+        }
+
+        /* ── Custom scrollbar ── */
+        #main-content::-webkit-scrollbar { width: 5px; }
+        #main-content::-webkit-scrollbar-track { background: transparent; }
+        #main-content::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 3px; }
+
+        /* ── Hero decorative ring ── */
+        header::before {
+            content: '';
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                rgba(200,180,255,0.12),
+                rgba(180,215,255,0.12),
+                rgba(255,210,180,0.12),
+                rgba(255,180,220,0.12),
+                rgba(200,180,255,0.12)
+            );
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -36%);
+            animation: heroRingSpin 30s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            border: 1px solid rgba(180,155,240,0.18);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -38%);
+            animation: heroRingSpin 22s linear infinite reverse;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes heroRingSpin {
+            from { transform: translate(-50%, -36%) rotate(0deg); }
+            to   { transform: translate(-50%, -36%) rotate(360deg); }
+        }
+
+        /* ═══════════════════════════════════
+           LYRICS BUTTON (on card)
+        ═══════════════════════════════════ */
+
+        .lyrics-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.28rem;
+            margin-top: 0.72rem;
+            padding: 0.28rem 0.75rem;
+            background: transparent;
+            border: 1px solid rgba(100,80,160,0.18);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.67rem;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: #7a6ea8;
+            cursor: pointer;
+            transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .lyrics-btn:hover {
+            background: rgba(139,111,168,0.1);
+            border-color: rgba(139,111,168,0.36);
+            color: #5c4490;
+        }
+
+        .lyrics-btn-icon {
+            font-style: normal;
+            font-size: 0.72rem;
+            opacity: 0.75;
+        }
+
+        /* ═══════════════════════════════════
+           LYRICS MODAL
+        ═══════════════════════════════════ */
+
+        #lyrics-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.28s ease;
+        }
+
+        #lyrics-modal.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .lm-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(18, 14, 38, 0.55);
+            backdrop-filter: blur(14px) saturate(160%);
+            -webkit-backdrop-filter: blur(14px) saturate(160%);
+        }
+
+        .lm-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            max-height: 82vh;
+            background: rgba(252, 250, 255, 0.97);
+            border-radius: 22px;
+            border: 1px solid rgba(200, 188, 230, 0.5);
+            box-shadow:
+                0 2px 8px rgba(60, 40, 120, 0.08),
+                0 16px 48px rgba(60, 40, 120, 0.2),
+                0 40px 80px rgba(60, 40, 120, 0.12);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(18px) scale(0.97);
+            transition: transform 0.32s cubic-bezier(0.34, 1.36, 0.64, 1);
+        }
+
+        #lyrics-modal.open .lm-card {
+            transform: translateY(0) scale(1);
+        }
+
+        .lm-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.5rem 1.6rem 1.1rem;
+            border-bottom: 1px solid rgba(139, 111, 168, 0.1);
+            flex-shrink: 0;
+        }
+
+        .lm-header-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            min-width: 0;
+        }
+
+        .lm-eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #9b84c8;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .lm-song-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1c1a2e;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lm-artist-name {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #8a86a8;
+            margin-top: 0.05rem;
+        }
+
+        .lm-close {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid rgba(139, 111, 168, 0.18);
+            background: rgba(139, 111, 168, 0.07);
+            color: #7a6ea8;
+            font-size: 1rem;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+            margin-top: 0.1rem;
+        }
+
+        .lm-close:hover {
+            background: rgba(139, 111, 168, 0.16);
+            border-color: rgba(139, 111, 168, 0.4);
+            color: #4a3880;
+        }
+
+        .lm-body {
+            overflow-y: auto;
+            padding: 1.4rem 1.6rem 1.8rem;
+            flex: 1;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(139,111,168,0.25) transparent;
+        }
+
+        .lm-body::-webkit-scrollbar { width: 4px; }
+        .lm-body::-webkit-scrollbar-track { background: transparent; }
+        .lm-body::-webkit-scrollbar-thumb {
+            background: rgba(139,111,168,0.25);
+            border-radius: 4px;
+        }
+
+        .lm-notice {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .lm-notice-icon {
+            font-size: 1.8rem;
+            opacity: 0.3;
+        }
+
+        .lm-notice-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            color: #a09cb8;
+            font-style: italic;
+        }
+
+        .lm-lyrics-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 400;
+            line-height: 2;
+            color: #2e2a48;
+            white-space: pre-line;
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            .lm-card {
+                max-height: 88vh;
+                border-radius: 18px;
+            }
+            .lm-header { padding: 1.2rem 1.3rem 0.9rem; }
+            .lm-body   { padding: 1.2rem 1.3rem 1.5rem; }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .nav-brand { display: none; }
+            nav a { font-size: 0.75rem; padding: 0.38rem 0.75rem; }
+            .mood-section-inner { padding: 1.8rem 1.5rem 2rem; }
+            .mood-section h2 { font-size: 2rem; }
+            .mood-desc { display: none; }
+            .main-h1-sub { display: none; }
+            header::before, header::after { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            #progress-wrap { display: none; }
+            .np-inner { padding: 0.8rem 1.2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .song-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="blob-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+    </div>
+
+    <!-- Landing page -->
+    <div id="landing-page">
+        <span class="eyebrow">a personal playlist</span>
+        <h1>EUPHORIA</h1>
+        <p class="subtitle">a collection of songs for every feeling — made for moments when you know the vibe but not the song.</p>
+        <div class="divider"></div>
+        <div class="form-group">
+            <label class="name-label" for="name-input">what should we call you?</label>
+            <input type="text" id="name-input" class="name-input" placeholder="your name" maxlength="32" autocomplete="off" />
+            <button class="dive-btn" onclick="diveIn()">dive in →</button>
+        </div>
+        <div class="mood-dots">
+            <div class="mood-dot"></div>
+            <div class="mood-dot"></div>
+            <div class="mood-dot"></div>
+            <div class="mood-dot"></div>
+            <div class="mood-dot"></div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div id="main-content">
+
+        <nav>
+            <div class="nav-inner">
+                <span class="nav-brand">EUPHORIA</span>
+                <a href="#chill">chill</a>
+                <a href="#party">party</a>
+                <a href="#heartbroken">heartbroken</a>
+                <a href="#energetic">energetic</a>
+                <a href="#travelling">travelling</a>
+            </div>
+        </nav>
+
+        <header>
+            <span class="header-eyebrow" id="user-greeting">a personal playlist</span>
+            <h1 class="main-h1">EUPHORIA</h1>
+            <p class="main-h1-sub">for every feeling</p>
+            <p class="subtitle-main">a curated collection of songs for every state of mind — made for those moments when you know the vibe but not the song.</p>
+            <div class="header-rule"></div>
+        </header>
+
+        <section class="mood-picker">
+            <p class="mood-picker-question" id="picker-question">How are you feeling today?</p>
+            <div class="mood-buttons">
+                <button class="mood-btn btn-chill"       onclick="goToMood('chill')">chill</button>
+                <button class="mood-btn btn-party"       onclick="goToMood('party')">party</button>
+                <button class="mood-btn btn-heartbroken" onclick="goToMood('heartbroken')">heartbroken</button>
+                <button class="mood-btn btn-energetic"   onclick="goToMood('energetic')">energetic</button>
+                <button class="mood-btn btn-travelling"  onclick="goToMood('travelling')">travelling</button>
+            </div>
+        </section>
+
+        <!-- Chill -->
+        <section id="chill" class="mood-section">
+          <div class="mood-section-inner">
+            <div class="mood-header">
+                <h2>chill</h2>
+                <p class="mood-desc">for when you need to just exist and breathe</p>
+                <span class="mood-count">4 tracks</span>
+            </div>
+            <div class="song-grid">
+
+                <div class="song-card" data-src="songs/02 Ultraviolence.m4a" data-title="Ultraviolence" data-artist="Lana Del Rey" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/736x/5f/a2/21/5fa221a999ba41e687a679cf33ec4ef6.jpg" class="album-cover" alt="Ultraviolence">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>chill</span>
+                        <div class="song-title">Ultraviolence</div>
+                        <div class="artist-name">Lana Del Rey</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+He used to call me DN
+That stood for deadly nightshade
+'Cause I was filled with poison
+But blessed with beauty and rage
+Jim told me that
+He hit me and it felt like a kiss
+Jim brought me back
+Reminded me of when we were kids
+With his ultraviolence
+Ultraviolence
+Ultraviolence
+Ultraviolence
+I can hear sirens, sirens
+He hit me and it felt like a kiss
+I can hear violins, violins
+Give me all of that ultraviolence
+He used to call me poison
+Like I was poison ivy
+I could've died right then
+'Cause he was right beside me
+Jim raised me up
+He hurt me but it felt like true love
+Jim taught me that
+Loving him was never enough
+With his ultraviolence
+Ultraviolence
+Ultraviolence
+Ultraviolence
+I can hear sirens, sirens
+He hit me and it felt like a kiss
+I can hear violins, violins
+Give me all of that ultraviolence
+We can go back to New York
+Loving you was really hard
+We could go back to Woodstock
+Where they don't know who we are
+Heaven is on earth
+I will do anything for you, babe
+Blessed is this union
+Crying tears of gold, like lemonade
+I love you the first time
+I love you the last time
+Yo soy la princesa, comprende mis white lines
+'Cause I'm your jazz singer
+And you're my cult leader
+I love you forever
+I love you forever
+With his ultraviolence
+Ultraviolence
+Ultraviolence
+Ultraviolence
+I can hear sirens, sirens
+He hit me and it felt like a kiss
+I can hear violins, violins
+Give me all of that ultraviolence
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/ivy.mp3" data-title="Ivy" data-artist="Frank Ocean" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/1200x/9b/58/fa/9b58facaac83b1ec00b36040b654a769.jpg" class="album-cover" alt="Ivy">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>chill</span>
+                        <div class="song-title">Ivy</div>
+                        <div class="artist-name">Frank Ocean</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+I thought that I was dreamin' when you said you love me
+The start of nothin'
+I had no chance to prepare, I couldn't see you comin'
+The start of nothin'
+Ooh, I could hate you now
+It's quite alright to hate me now
+When we both know that deep down
+The feeling still deep down is good
+If I could see through walls
+I could see you're faking
+If you could see my thoughts
+You would see our faces
+Safe in my rental like an armored truck back then
+We didn't give a fuck back then
+I ain't a kid no more
+We'll never be those kids again
+We'd drive to Syd's
+Had the X6 back then
+Back then
+No matter what I did
+My waves wouldn't dip back then
+Everything sucked back then
+We were friends
+I thought that I was dreamin' when you said you loved me
+The start of nothin'
+I had no chance to prepare, I couldn't see you comin'
+The start of nothin'
+Ooh, I could hate you now
+It's quite alright to hate me now
+But we both know that deep down
+The feeling still deep down is good
+In the halls of your hotel
+Arm around my shoulder, so I could tell
+How much I meant to you, meant it sincere back then
+We had time to kill back then
+You ain't a kid no more
+We'll never be those kids again
+It's not the same, ivory's illegal
+Don't you remember?
+I broke your heart last week
+You'll probably feel better by the weekend
+Still remember, had you going crazy
+Screamin' my name
+The feeling deep down is good
+I thought that I was dreamin' when you said you loved me
+The start of nothin'
+I had no chance to prepare, couldn't see you comin'
+And we started from nothin'
+Ooh, I could hate you now
+It's alright to hate me now
+We both know that deep down
+The feeling still deep down is good
+All the things I didn't mean to say
+I didn't mean to do
+There were things you didn't need to say
+Did you mean to? Mean to?
+I've been dreamin' of you, dreamin' of you
+I've been dreamin' of you, dreamin' of you
+I've been dreamin', dreamin'
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/thelessiknowthebetter.mp3" data-title="The Less I Know The Better" data-artist="Tame Impala" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/736x/8e/85/b6/8e85b6579402030329bdec010c138b4a.jpg" class="album-cover" alt="The Less I Know The Better">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>chill</span>
+                        <div class="song-title">The Less I Know The Better</div>
+                        <div class="artist-name">Tame Impala</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+Someone said they left together
+I ran out the door to get her
+She was holding hands with Trevor
+Not the greatest feeling ever
+Said, "Pull yourself together
+You should try your luck with Heather"
+Then I heard they slept together
+Oh, the less I know the better
+The less I know the better
+Oh, my love, can't you see yourself by my side?
+No surprise when you're on his shoulder like every night
+Oh, my love, can't you see that you're on my mind?
+Don't suppose you could convince your lover to change his mind?
+So goodbye
+She said, "It's not now or never
+Wait ten years, we'll be together"
+I said, "Better late than never
+Just don't make me wait forever"
+Don't make me wait forever
+Don't make me wait forever
+Oh, my love, can't you see yourself by my side?
+I don't suppose you could convince your lover to change his mind?
+I was doin' fine without you
+'Til I saw your face, now I can't erase
+Givin' in to all his bullshit
+Is this what you want? is this who you are?
+I was doin' fine without you
+'Til I saw your eyes turn away from mine
+Oh, sweet darling, where he wants you
+Said, "Come on Superman, say your stupid line"
+Said, "Come on Superman, say your stupid line"
+Said, "Come on Superman, say your stupid line"
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/Needhe Needhe.mp3" data-title="Needhe Needhe" data-artist="DSP" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/736x/a8/16/23/a816233b3ead1a491b281a3d39aad684.jpg" class="album-cover" alt="Needhe Needhe">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>chill</span>
+                        <div class="song-title">Hi Nanna</div>
+                        <div class="artist-name">Hesham Abdul Wahab</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+HaaAaaAaa
+HaaAaaAaa
+Anuko Lopalaa
+Ayipothadhante Choodalaa
+Venake Nee Kalaa
+Raavaalsindhe Needalaa
+
+Uu Kotte Urumulake
+Chepatte Chinukulake
+Maarindhokka Varnaalugaa
+Vandhellalaa Saagipovaalaa
+
+
+Heyyy..Needhe Needhe Needhe
+Ningi Nela Needhe
+Ninne Nuvvu Nammaavante
+Andandeledhe
+
+Needhe Needhe Needhe
+Neelo Praanam Needhe
+Neekee Dhairyam Unnannaallu
+Nee Navvai Thoduntaadhe
+
+
+***
+Kaalanne nee Daarigaa
+Maarchesuko O O
+Painam Nee Gamyam Ani
+Raasesuko
+
+Nee Jante Khandaalanni
+Aakatte Lokaalani
+Nakshtraalai Nesthaluga
+Nee Paatake Chindhuleyale
+
+
+Hey...Needhe Needhe Needhe
+Ningi Nela Needhe
+Ninne Nuvvu Nammaavante
+Andandeledhe
+
+Needhe Needhe Needhe
+Neelo Praanam Needhe
+Neekee Dhairyam Unnannaallu
+Nee Navvai Thoduntaadhe
+
+
+oopire
+theegai ooge gundello
+moge raagame
+vinavee
+AaAaAAAaaa
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Party -->
+        <section id="party" class="mood-section">
+          <div class="mood-section-inner">
+            <div class="mood-header">
+                <h2>party</h2>
+                <p class="mood-desc">turn it up and forget everything else</p>
+                <span class="mood-count">3 tracks</span>
+            </div>
+            <div class="song-grid">
+
+                <div class="song-card" data-src="songs/chammakchallo.mp3" data-title="Chammak Challo" data-artist="Akon" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/1200x/01/b2/49/01b249697470156c2ae1ba3ec6e6fb6d.jpg" class="album-cover" alt="Chammak Challo">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>party</span>
+                        <div class="song-title">Chammak Challo</div>
+                        <div class="artist-name">Akon</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+Girl you’re my chammak challo.
+Where you go girl I’m gonna follow
+What you want girl just let me know
+You can be my chammak challo
+
+Shawty I’m gonna getcha
+You know I’m gonna getcha
+You know I’ll even letcha
+Letcha be my chammak challo
+
+Kaisa sharmaana aaja nachke dikha de
+Aa meri hole aaja parda gira de
+Aa meri akhiyon se akhiyaan mila le
+Aa tu na nakhre dikha
+
+Wanna be my chammak challo, o o o..
+Wanna be my chammak challo, o o o..
+Wanna be my chammak challo, o o o..
+Wanna be my chammak challo, o o o..
+
+Tu meri chamak challo..
+Teri picture ka main hero
+Give it to me girl mujko de do
+Ho ho hoo..
+You can be my chammak challo
+
+Shawty I’m gonna getcha
+You know I’m gonna getcha
+Maybe I’ll even letcha
+Be my chamak chamak chalo
+
+Kaisa sharmaana aaja nachke dikha de
+Aa meri hole aaja parda gira de
+Aa meri akhiyon se akhiyaan mila le
+Aa tu na nakhre dikha
+
+Wanna be my chammak challo, o o o.. (x4)
+
+Unnai totta penn ullattai uruka maataya
+How can you not melt the woman who touched your heart
+Ennai pola pennai paarthu mayanga maataya
+How can you help falling for a girl like me
+Kannil kannai poti vitaal sirika maataya
+If I lock eyes with you wouldn’t that make you smile?
+Ennil unnai sooti vitaal ottika maataya
+If I bind you to me won’t you get glued to me?
+
+Kaisa sharmaana aaja nachke dikha doon
+Aa meri hole aaja parda gira doon
+Aa tujhe akhiyon mein apne basa loon
+Aa tu na nakhre dikha..
+
+Wanna be my chammak challo, o o o.. (repeat)
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/blindinglights.mp3" data-title="Blinding Lights" data-artist="The Weeknd" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/1200x/94/a6/c9/94a6c97dbe731ed13e3bcf7e392f0960.jpg" class="album-cover" alt="Blinding Lights">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>party</span>
+                        <div class="song-title">Blinding Lights</div>
+                        <div class="artist-name">The Weeknd</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+[Intro]
+Yeah
+
+[Verse 1]
+I've been tryna call
+I've been on my own for long enough
+Maybe you can show me how to love, maybe
+I'm goin' through withdrawals
+You don't even have to do too much
+You can turn me on with just a touch, baby
+
+[Pre-Chorus]
+I look around and
+Sin City's cold and empty (Oh)
+No one's around to judge me (Oh)
+I can't see clearly when you're gone
+
+[Chorus]
+I said, ooh, I'm blinded by the lights
+No, I can't sleep until I feel your touch (Touch)
+I said, ooh, I'm drowning in the night
+Oh, when I'm like this, you're the one I trust
+Hey, hey, hey
+
+[Verse 2]
+I'm running out of time
+'Cause I can see the sun light up the sky
+So I hit the road in overdrive, baby, oh
+See The Weeknd Live
+Get tickets as low as $56
+You might also like
+Open Hearts
+The Weeknd
+The Abyss
+The Weeknd & Lana Del Rey
+Enjoy The Show
+The Weeknd & Future
+[Pre-Chorus]
+The city's cold and empty (Oh)
+No one's around to judge me (Oh)
+I can't see clearly when you're gone
+
+[Chorus]
+And I said, ooh, I'm blinded by the lights
+No, I can't sleep until I feel your touch (Touch)
+I said, ooh, I'm drowning in the night
+Oh, when I'm like this, you're the one I trust
+
+[Bridge]
+I'm just coming back to let you know (Back to let you know)
+I could never say it on the phone (Say it on the phone)
+Will never let you go this time (Ooh)
+
+[Chorus]
+I said, ooh, I'm blinded by the lights
+No, I can't sleep until I feel your touch (Touch)
+Hey, hey, hey
+
+[Post-Chorus]
+Hey, hey, hey
+
+[Outro]
+I said, ooh, I'm blinded by the lights
+No, I can't sleep until I feel your touch
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/illegal.mp3" data-title="Illegal" data-artist="PinkPantheress" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/736x/12/81/04/12810406628ad1f8c263855132960014.jpg" class="album-cover" alt="Illegal">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>party</span>
+                        <div class="song-title">Illegal</div>
+                        <div class="artist-name">PinkPantheress</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+[Verse 1]
+My name is Pink and I'm really glad to meet you
+You're recommended to me by some people
+Hey, ooh, is this illegal?
+Hey, ooh, it feels illegal (Ha)
+I've suffered quite a few times with paranoia
+Oh, what's your name? I don't know what I should call ya
+Hey, ooh, here's twenty for ya
+Hey, ooh, we're getting high around the corner (Wow)
+
+[Chorus]
+One after one, now you're sittin' on my bed
+Then, later on, we can talk on it instead
+Two into one while you're sittin' on my bed
+Then, later on, I can feel shame in my head
+
+[Verse 2]
+We'll meet again when my head works like it used to
+And maybe next time I'll tell my girl, "Come through"
+I like the fact that we don't communicate
+As long as you don't tell all your best mates
+
+[Chorus]
+One after one, now you're sittin' on my bed
+Then, later on, we can talk on it instead
+Two into one while you're sittin' on my bed
+Then, later on, I can feel shame in my head
+One after one, now you're— (Sittin' on my bed)
+And now you're sittin' on my bed
+Two into one while you're sittin' on my bed
+Then, later on, I can feel shame in my head
+You might also like
+Illegal + Anitta
+PinkPantheress & Anitta
+DAISIES
+Justin Bieber
+What Did I Miss?
+Drake
+[Verse 3]
+My name is Pink, and I'm really glad to meet you
+You're recommended to me by some people
+I think I smoked enough loud to reach the both of us
+But tell me why my heartbeat is in a rush
+
+[Bridge]
+Ah-ah, ah-ah
+Ah-ah, ah-ah
+Ah-ah, ah-ah
+Ah-ah, ah-ah
+Ah-ah, ah-ah
+Ooh
+Hey, ooh, is this illegal? (Mm)
+Hey, ooh, it feels illegal (Ah)
+
+[Outro]
+Wow
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Heartbroken -->
+        <section id="heartbroken" class="mood-section">
+          <div class="mood-section-inner">
+            <div class="mood-header">
+                <h2>heartbroken</h2>
+                <p class="mood-desc">for when words feel easier in someone else's voice</p>
+                <span class="mood-count">3 tracks</span>
+            </div>
+            <div class="song-grid">
+
+                <div class="song-card" data-src="songs/happierthanever.mp3" data-title="Happier than ever" data-artist="Billie Eilish" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/736x/33/bc/1e/33bc1e4f2109a5761349831c1b1100a0.jpg" class="album-cover" alt="Happier than ever">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>heartbroken</span>
+                        <div class="song-title">Happier than ever</div>
+                        <div class="artist-name">Billie Eilish</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+When I'm away from you
+I'm happier than ever
+Wish I could explain it better
+I wish it wasn't true
+Give me a day or two
+To think of something clever
+To write myself a letter
+To tell me what to do, mm-mm
+Do you read my interviews?
+Or do you skip my avenue? (My avenue)
+When you (when you) said you were passing through
+Was I even on your way?
+I knew when I asked you to (when I asked you to)
+Be cool about what I was telling you
+You'd do the opposite of what you said you'd do (what you said you'd do)
+And I'd end up more afraid
+Don't say it isn't fair
+You clearly weren't aware that you made me miserable
+So if you really wanna know
+When I'm away from you (when I'm away from you)
+I'm happier than ever (happier than ever)
+Wish I could explain it better (wish I could explain it better)
+I wish it wasn't true (wish it wasn't true), mm-hm
+You call me again, drunk in your Benz
+Driving home under the influence
+You scared me to death, but I'm wasting my breath
+'Cause you only listen to your fucking friends
+I don't relate to you
+I don't relate to you, no
+'Cause I'd never treat me this shitty
+You made me hate this city
+And I don't talk shit about you on the internet
+Never told anyone anything bad
+'Cause that shit's embarrassing, you were my everything
+And all that you did was make me fucking sad
+So don't waste the time I don't have
+And don't try to make me feel bad
+I could talk about every time that you showed up on time
+But I'd have an empty line 'cause you never did
+Never paid any mind to my mother or friends
+So I shut 'em all out for you 'cause I was a kid
+You ruined everything good
+Always said you were misunderstood
+Made all my moments your own
+Just fucking leave me alone, whoa, yeah
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/teliseneynaanuvve.mp3" data-title="Teliseney naa nuvve" data-artist="Harshavardhan Rameshwar" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/736x/81/6d/a2/816da2d2c9fc69fc63692f5bd1c238c3.jpg" class="album-cover" alt="Teliseneynaanuvve">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>heartbroken</span>
+                        <div class="song-title">Teliseney naa nuvve</div>
+                        <div class="artist-name">Harshavardhan Rameshwar</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+                            Thelisene naa nuvve naa nuvvu kaadhani
+Thelisene nee nene nee nenu kaanani
+Naalo sagam ika ledhoo ani
+Naa ninnale nannu choosi navvele…
+
+Maru naadu annadhe ika undhabodhani
+Annadheekshanam…..
+
+Naa praanam nuvve
+Naa gunde nuvve gundello mande
+Nippai cheraave…
+
+Oohalake theliyanidhe
+Jarigenule ipudelaa…
+Nuvvu nenu anu maate
+Ikapai undadhule entilaa
+
+Thappu edho jarigenu
+Reppa paatulo…
+Cheppaleni vedyanagaa
+Uppenaga tharumuthondhe
+Nuvvu lenidhe
+Mari nenu lenani…
+Anna ee kshanam….
+
+Naa antham nuvvea….
+Naaa pantham nuvvea…
+Naa pantham enthaa…
+Ee vishwam anthaaa….
+Naa antham nuvvea….
+Naaa pantham nuvvea…
+Naa pantham enthaa…
+Ne vishwam anthaaa….
+
+Thelisene naa nuvve naa nuvvu kaadhani
+Thelisene nee nene nee nenu kaanani
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/cinnamongirl.mp3" data-title="Cinnamon Girl" data-artist="Lana Del Rey" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/1200x/81/07/92/8107928f1aea22b3f90b212525ed46e2.jpg" class="album-cover" alt="Cinnamon Girl">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>heartbroken</span>
+                        <div class="song-title">Cinnamon Girl</div>
+                        <div class="artist-name">Lana Del Rey</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+                            [Verse 1]
+Cinnamon in my teeth
+From your kiss, you're touching me
+All the pills that you take
+Violet, blue, green, red to keep me at arm's length don't work
+You try to push me out, but I just find my way back in
+Violet, blue, green, red to keep me out, I win
+
+[Chorus]
+There's things I wanna say to you
+But I'll just let you live
+Like if you hold me without hurting me
+You'll be the first who ever did
+There's things I wanna talk about
+But better not to give
+But if you hold me without hurting me
+You'll be the first who ever did
+
+[Post-Chorus]
+Ah, ah, ah, ah, ah, ah
+Hold me, love me, touch me, honey
+Be the first who ever did
+Ah, ah, ah, ah, ah, ah
+Hold me, love me, touch me, honey
+Be the first who ever did
+You might also like
+The Tortured Poets Department
+Taylor Swift
+Candy Necklace
+Lana Del Rey
+Paris, Texas
+Lana Del Rey
+[Verse 2]
+Kerosene in my hands
+You make me mad, on fire again
+All the pills that you take
+Violet, blue, green, red to keep me at arm's length don't work
+
+[Chorus]
+There's things I wanna say to you
+But I'll just let you live
+Like if you hold me without hurting me
+You'll be the first who ever did
+There's things I wanna talk about
+But better not to give
+But if you hold me without hurting me
+You'll be the first who ever did
+
+[Post-Chorus]
+Ah, ah, ah, ah, ah, ah
+Hold me, love me, touch me, honey
+Be the first who ever did
+Ah, ah, ah, ah, ah, ah
+Hold me, love me, touch me, honey
+Be the first who ever did
+
+[Chorus]
+There's things I wanna say to you
+But I'll just let you live
+Like if you hold me without hurting me
+You'll be the first who ever did
+There's things I wanna talk about
+But better not to give
+Like if you hold me without hurting me
+You'll be the first who ever did
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Energetic -->
+        <section id="energetic" class="mood-section">
+          <div class="mood-section-inner">
+            <div class="mood-header">
+                <h2>energetic</h2>
+                <p class="mood-desc">turn the volume up and own the moment</p>
+                <span class="mood-count">3 tracks</span>
+            </div>
+            <div class="song-grid">
+
+                <div class="song-card" data-src="songs/onsight.mp3" data-title="On Sight" data-artist="Kanye West" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/736x/be/e2/3e/bee23e7ca688441863017afc57c6fc98.jpg" class="album-cover" alt="On Sight">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>energetic</span>
+                        <div class="song-title">On Sight</div>
+                        <div class="artist-name">Kanye West</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+                            [Verse 1: Kanye West]
+Yeezy season approachin'
+Fuck whatever y'all been hearin'
+Fuck what, fuck whatever y'all been wearin'
+A monster about to come alive again
+Soon as I pull up and park the Benz
+We get this bitch shaking like Parkinson's
+Take my number and lock it in
+Indian hair, no moccasins
+It's too many hoes in this house of sin
+Real nigga back in the house again
+Black Timbs all on your couch again
+Black dick all in your spouse again
+And I know she like chocolate men
+She got more niggas off than Cochran, hah!
+
+[Refrain: Kanye West]
+On sight
+On sight
+
+[Bridge: Kanye West]
+How much do I not give a fuck?
+Let me show you right now 'fore you give it up
+How much do I not give a fuck?
+Let me show you right now 'fore you give it up
+See Kanye West Live
+Get tickets as low as $60
+You might also like
+FE!N
+Travis Scott
+Noid
+Tyler, The Creator
+Darling, I
+Tyler, The Creator
+[Interlude: Holy Name of Mary Choral Family]
+Oh, He'll give us what we need
+It may not be what we want
+
+[Verse 2: Kanye West]
+Baby girl tryna get a nut
+And her girl tryna give it up
+Chopped 'em both down
+Don't judge 'em, Joe Brown
+One last announcement
+No sports bra, let's keep it bouncin'
+Everybody wanna live at the top of the mountain
+Took her to the 'Bleau, she tried to sip the fountain
+That's when David Grutman kicked her out
+But I got her back in and put my dick in her mouth
+
+[Refrain: Kanye West]
+On sight
+On sight
+
+[Bridge: Kanye West]
+Uh-huh
+Uh-huh
+Uh-huh
+Uh-huh
+[Outro: Kanye West]
+Right now
+I need right now
+Right now
+I need, I need right now
+Right now
+I need, I need right now
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/starboy.mp3" data-title="Starboy" data-artist="The Weeknd" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/736x/96/67/5b/96675b7ae6dfd9851d969e8cf61c3af1.jpg" class="album-cover" alt="Starboy">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>energetic</span>
+                        <div class="song-title">Starboy</div>
+                        <div class="artist-name">The Weeknd</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+                            [Intro]
+Ayy
+
+[Verse 1]
+I'm tryna put you in the worst mood, ah
+P1 cleaner than your church shoes, ah
+Milli point two just to hurt you, ah
+All red Lamb' just to tease you, ah
+None of these toys on lease too, ah
+Made your whole year in a week too, yah
+Main bitch outta your league too, ah
+Side bitch outta your league too, ah
+
+[Pre-Chorus]
+House so empty, need a centerpiece
+Twenty racks a table, cut from ebony
+Cut that ivory into skinny pieces
+Then she clean it with her face, man, I love my baby, ah
+You talkin' money, need a hearin' aid
+You talkin' 'bout me, I don't see the shade
+Switch up my style, I take any lane
+I switch up my cup, I kill any pain
+
+[Chorus]
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+Look what you've done
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+I'm a motherfuckin' starboy
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+Look what you've done
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+I'm a motherfuckin' starboy
+See The Weeknd Live
+Get tickets as low as $56
+You might also like
+So Long, London
+Taylor Swift
+The Tortured Poets Department
+Taylor Swift
+Family Matters
+Drake
+[Verse 2]
+Every day, a nigga try to test me, ah
+Every day, a nigga try to end me, ah
+Pull off in that Roadster SV, ah
+Pockets overweight, gettin' hefty, ah
+Comin' for the king, that's a far cry, I
+I come alive in the fall time, I
+The competition, I don't really listen
+I'm in the blue Mulsanne, bumpin' New Edition
+
+[Pre-Chorus]
+House so empty, need a centerpiece
+Twenty racks a table, cut from ebony
+Cut that ivory into skinny pieces
+Then she clean it with her face, man, I love my baby, ah
+You talkin' money, need a hearin' aid
+You talkin' 'bout me, I don't see the shade
+Switch up my style, I take any lane
+I switch up my cup, I kill any pain
+
+[Chorus]
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+Look what you've done
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+I'm a motherfuckin' starboy
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+Look what you've done
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+I'm a motherfuckin' starboy
+[Verse 3]
+Let a nigga brag Pitt
+Legend of the fall, took the year like a bandit
+Bought Mama a crib and a brand new wagon
+Now she hit the grocery shop lookin' lavish
+Star Trek roof in that Wraith of Khan
+Girls get loose when they hear this song
+A hundred on the dash get me close to God
+We don't pray for love, we just pray for cars
+
+[Pre-Chorus]
+House so empty, need a centerpiece
+Twenty racks a table, cut from ebony
+Cut that ivory into skinny pieces
+Then she clean it with her face, man, I love my baby, ah
+You talkin' money, need a hearin' aid
+You talkin' 'bout me, I don't see the shade
+Switch up my style, I take any lane
+I switch up my cup, I kill any pain
+
+[Chorus]
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+Look what you've done
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+I'm a motherfuckin' starboy
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+Look what you've done
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+I'm a motherfuckin' starboy
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+Look what you've done
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+I'm a motherfuckin' starboy
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+Look what you've done
+(Ha-ha-ha-ha-ha, ha-ha-ha-ha-ha)
+I'm a motherfuckin' starboy
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/timeless.mp3" data-title="Timeless" data-artist="The Weeknd" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/736x/23/a7/25/23a725cdcf5217efb1cfa11db35de898.jpg" class="album-cover" alt="Timeless">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>energetic</span>
+                        <div class="song-title">Timeless</div>
+                        <div class="artist-name">The Weeknd</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+                            [Intro: The Weeknd]
+Sun is shining, it's over
+It's tomorrow
+Bathe yourself in the light, in your love
+XO
+Ooh, yeah, ooh, yeah, no
+
+[Verse 1: Playboi Carti & The Weeknd]
+Ever since I was a jit, knew I was the shit (Ooh, yeah)
+Shawty keep wanna come 'round, she wanna get hit (Wanna get hit so hard)
+She think she the main because I keep her by my side
+Double-O, bust down the watch, she know that I'm timeless (Timeless)
+I put my son in some Rick
+I pull that gun off the hip
+Pockets hold twenty-two clips (Ah)
+I break her heart, Comme Garçon
+Put on a shirt, get put on a blimp
+Bitch like a stain, get ready to lick
+I had to tеll her that ever sincе I was a jit, knew I was the shit (Oh)
+She singin' my songs, she wanna die lit, tryna get hit
+House like a bank, deposit this bitch, 'posit that check
+Smile on my face, ain't fearing shit, come and get checked (Uh)
+Ice on my neck, double-O wrist
+She in the Scat, hell of a 'Cat
+Fresh out the trench, four hundred packs
+Uh, yeah, I'm spinnin' in Paris (Uh)
+Dress for these hoes, they finna flock
+Just poured a four in a soda, it pop
+Them drugs finna hit, I'm feelin' ill
+I'm wrestlin' all of my demons, I feel like The Rock
+See The Weeknd Live
+Get tickets as low as $56
+You might also like
+Noid
+Tyler, The Creator
+Thought I Was Dead
+Tyler, The Creator
+MOJO JOJO
+Playboi Carti
+[Chorus: The Weeknd & Playboi Carti]
+(Shit, uh, yeah)
+Ever since I was a kid, I been legit (Jit, ooh, nah)
+If I was you, I would cut up my wrist (Dumb bit')
+XO tatted all over her body, yeah (Yeah)
+She just wanna roll and I don't mind it, yeah
+Ever since I was a jit, I been legit (Ooh, nah, uh)
+You should let her go, she wanna be it (Oh, yeah)
+Double-O tatted on her body, yeah
+It don't matter what they say, I'm timeless, yeah (Schyeah)
+
+[Verse 2: The Weeknd & Playboi Carti]
+Oh, city on fire when I'm comin' home
+Fill up the sky (Yeah), I fill up the Dome
+They'll play it one day (Yeah), it's a hell of a show
+But it's gonna hurt 'cause we did it first
+Feel like Skateboard P, BBC boys on the creep
+Feel like it's '03, Neptune drum with a beam (Yeah)
+She hippie-flippin' a bean, she wanna fuck with the team
+She fell in love with the cream (Yeah), she fell in love with the scene
+Ooh, yeah, her man quiet, not a peep (Oh, nah)
+Broke his heart, PTSD (Oh, nah)
+Hold his chest, let it breathe
+Let it breathe, niggas scheme
+And I got a priest, he got a cross
+Get out of line, send him to God
+I shed a tear, pray for a loss, ooh, yeah (Yeah)
+[Chorus: The Weeknd & Playboi Carti]
+Ever since I was a kid, I been legit (Homixide, Homixide, Homixide, oh, oh)
+If I was you, I would cut up my wrist (Ah)
+XO tatted all over her body, yeah (Body, yeah)
+She just wanna roll and I don't mind it, yeah
+Ever since I was a jit, I been legit (Yeah, ooh, nah)
+You should let her go, she wanna be it (Oh, nah)
+Double-O tatted on her body, yeah (Body, yeah)
+It don't matter what they say, I'm timeless
+
+[Outro: The Weeknd & Playboi Carti]
+Timeless (Oh), timeless, timeless
+Timeless, timeless, timeless, we timeless, oh
+Timeless, timeless, timeless (Yeah), timeless
+Timeless (Yeah), timeless, timeless, we timeless, oh
+Oh (Blatt)
+Oh (Yuh, lit)
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Travelling -->
+        <section id="travelling" class="mood-section">
+          <div class="mood-section-inner">
+            <div class="mood-header">
+                <h2>travelling</h2>
+                <p class="mood-desc">window seat, headphones in, world passing by</p>
+                <span class="mood-count">4 tracks</span>
+            </div>
+            <div class="song-grid">
+
+                <div class="song-card" data-src="songs/guruvaram.mp3" data-title="Guruvaram" data-artist="S Thaman" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/736x/e7/00/54/e70054dfa4cdfb1a6947bb82fc9e6c37.jpg" class="album-cover" alt="Guruvaram">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>travelling</span>
+                        <div class="song-title">Guruvaram</div>
+                        <div class="artist-name">S Thaman</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+                            Guruvaram march okati sayantram five forty
+tolisariga choosane ninnuu choosthune prema putti
+nee paine lens petti nidare ponandee naa kannuu
+
+guruvaaram march okati sayantram five forty
+tolisariga choosane ninnuu rojantha nee maatee
+dhyaasanthaa nee meede anukunte kanipisthaavu nuvve
+mothamga naa focus nee vaipe maarelaa
+yem maayo chesavee
+oh yehh
+om shanti shanti anipinchavee
+zara zara sun tho zara jaane jaana
+dilse tujhko pyaar kiya yeh deewana
+nee pai chaalaa prema vundi gundellona
+socho zara pyar se dilko samjhanaa
+i love you bolo naa haseenaa
+
+nuvvu vaade perfume gurthosthe chaale
+manasantha edoo giliginthee
+kaligindee perigindee
+naa chuttuu lokam neetho nindindee
+oo nimisham nee roopam nannodili ponandee
+climate anthaa naalaagee
+love lo padipoyindemo annatundee
+crazy gaa vundee ningi nela
+talakindayi kanipinche jaadu
+yedo chesesaavee
+oh yehh
+om shanti shanti anipinchaave
+zara zara
+sun tho zara jaane jaana
+dilse tujhko pyaar kiya yeh deewana
+nee pai chaalaa prema vundi gundellona
+socho zara pyar se dilko samjhanaa
+i love you bolo naa haseenaa
+
+gadiyaaram mullayii tirigesthunnaanee
+ye nimisham nuvvuu i love you antaavo anukuntuu
+calendar kanna mundee vunnaanee
+nuvvu naatho kalisundee aa rojee eppudantuu
+daily routine total ga
+nee vallee change ayyindee
+choosthu choosthu ninnu follow chesthuu
+antho intho decent kurradni
+awaaraa laa maarchesaavee
+oh yehh
+om shanti shanti anipinchaavee
+zara zara premaloki adugesthunnaa
+cheliyalaa cheri pona neelonaa
+yedemainaa neeku nenu sontham kaanaa
+nanne nenuu neeku kaanukisthunnaa
+naa praanam naa sarvam neekosamm
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/sunflower.mp3" data-title="Sunflower" data-artist="Post Malone" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/1200x/cd/6d/4b/cd6d4b63902b9210824cd2133e31a8a8.jpg" class="album-cover" alt="Sunflower">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>travelling</span>
+                        <div class="song-title">Sunflower</div>
+                        <div class="artist-name">Post Malone</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+Needless to say, I keep it in check
+She was a bad-bad, nevertheless (yeah)
+Callin' it quits now, baby, I'm a wreck (wreck)
+Crash at my place, baby, you're a wreck (wreck)
+Thinkin' in a bad way, losin' your grip
+Screamin' at my face, baby, don't trip
+Someone took a big L, don't know how that felt
+Lookin' at you sideways, party on tilt
+Some things you just can't refuse
+She wanna ride me like a cruise
+And I'm not tryna lose
+Then you're left in the dust
+Unless I stuck by ya
+You're the sunflower
+I think your love would be too much
+Or you'll be left in the dust
+Unless I stuck by ya
+You're the sunflower
+You're the sunflower
+Every time I'm leavin' on you (ooh)
+You don't make it easy, no (no, no)
+Wish I could be there for you
+Give me a reason to, oh (oh)
+Every time I'm walkin' out
+I can hear you tellin' me to turn around
+Fightin' for my trust and you won't back down
+Even if we gotta risk it all right now, oh (now)
+I know you're scared of the unknown ('known)
+You don't wanna be alone (alone)
+I know I always come and go (and go)
+But it's out of my control
+And you'll be left in the dust
+Unless I stuck by ya
+You're the sunflower
+I think your love would be too much
+Or you'll be left in the dust
+Unless I stuck by ya
+You're the sunflower
+You're the sunflower (yeah)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/kontechooputho.mp3" data-title="Kontechooputho" data-artist="Deepa" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/1200x/b3/02/70/b30270cccd33658e2b37690aa38ef4af.jpg" class="album-cover" alt="Kontechooputho">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>travelling</span>
+                        <div class="song-title">Kontechooputho</div>
+                        <div class="artist-name">Deepa</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+                            Konte Chuputho Nee Konte Chuputho
+Naa Manasu Mellaga Challaga Dhochave
+Chinni Navvutho Oka Chilipi Navvutho
+Yedho Mayajesi Anthalone Mounamelane
+
+Konte Chuputho Nee Konte Chuputho
+Naa Manasu Mellaga Challaga Dhochave
+Chinni Navvutho Oka Chilipi Navvutho
+Yedho Mayajesi Anthalone Mounamelane
+
+Maatarani Mounam Manase Thelipe
+Yedha Chaatu Maatu Gaanam Kanule Kalipe
+Ee Vela
+
+Kallu Raase Nee Kallu Raase
+Oka Chinna Kavitha Premenemo
+Adhi Chadivinappudu Naa Pedavi Chappudu
+Tholi Paate Naalo Palikinadhi
+
+Pagale Reyaina Yugame Kshanamaina
+Kaalam Neethoti Karagani
+Andhani Jabilli Andhina Ee Vela
+Iruvuri Dhooralu Karagani
+
+Odilo Vaalalanunnadhi
+Vaddani Siggaaputhunnadhi
+Thadabadu Gundelalo Momatamidhi
+
+Konte Chuputho Nee Konte Chuputho
+Naa Manasu Mellaga Challaga Dhochave
+Chinni Navvutho Oka Chilipi Navvutho
+Yedho Mayajesi Anthalone Mounamelane
+
+Kallalo Nidrinchi Kalale Mudrinchi
+Madhilo Dhooravu Chilipiga
+Ninne Aasinchi Ninne Swasinchi
+Neeve Nenantu Thelupaga
+
+Choopulu Ninne Pilichene
+Naa Oopiri Neekai Nilichene
+Chaavuku Bhayapadane Nuvvunte Chentha
+
+Kallu Raase Nee Kallu Raase
+Oka Chinna Kavitha Premenemo
+Adhi Chadivinappudu Naa Pedavi Chappudu
+Tholi Paate Naalo Palikinadhi
+
+Maatarani Mounam Manase Thelipe
+Yedha Chaatu Maatu Gaanam Kanule Kalipe
+Ee Vela
+
+Kanti Chuputho Nee Kanti Chuputho
+Naa Manasu Mellaga Challaga Dhochave
+Chinni Navvutho Oka Chilipi Navvutho
+Yedho Mayajesi Anthalone Mounamelane
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song-card" data-src="songs/feelslikeweonlygobackwards.mp3" data-title="Feels Like We Only Go Backwards" data-artist="Tame Impala" onclick="playCard(this)">
+                    <div class="cover-wrap">
+                        <img src="https://i.pinimg.com/736x/2c/be/fa/2cbefadbc1b0cce24a5d257f99b994ec.jpg" class="album-cover" alt="Feels Like We Only Go Backwards">
+                        <div class="play-overlay"><div class="play-overlay-icon">▶</div></div>
+                    </div>
+                    <div class="song-info">
+                        <span class="mood-tag"><span class="mood-dot-small"></span>travelling</span>
+                        <div class="song-title">Feels Like We Only Go Backwards</div>
+                        <div class="artist-name">Tame Impala</div>
+                        <button class="lyrics-btn" onclick="openLyricsModal(event, this)">
+                            <span class="lyrics-btn-icon">♪</span> Lyrics
+                        </button>
+                        <div class="lyrics-data" hidden>
+It feels like I only go backwards, baby
+Every part of me says, "Go ahead"
+I got my hopes up again, oh no, not again
+Feels like we only go backwards, darling
+
+I know that you think you sound silly when you call my name
+But I hear it inside my head all day
+Then I realize I'm just holding on to the hope that maybe your feelings don't show
+
+It feels like I only go backwards baby
+Every part of me says, "Go ahead"
+Then I got my hopes up again, oh no, not again
+Feels like we only go backwards, darling
+
+Seed of all this indecision isn't me, oh no
+'Cause I decided long ago if that's the way it seems to go
+We draw us apart to get to something real, it feels
+
+It feels like I only go backwards darling
+Every part of me says, "Go ahead"
+I got my hopes up again, oh no, not again
+Feels like we only go backwards, darling
+It feels like I only go backwards baby
+Every part of me says, "Go ahead"
+I got my hopes up again, oh no, not again
+Feels like we only go backwards, darling
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <div class="footer-inner">
+            <p class="footer-title">find your sound</p>
+            <div class="social-links">
+                <a href="#">apple music</a>
+                <a href="#">spotify</a>
+                <a href="#">email</a>
+            </div>
+            <p class="footer-note">made with care · by prabhas · 2026</p>
+          </div>
+        </footer>
+
+    </div>
+
+    <!-- Now playing bar -->
+    <div id="now-playing-bar">
+        <div class="np-inner">
+            <div class="np-info">
+                <div id="np-title">—</div>
+                <div id="np-artist">—</div>
+            </div>
+            <div id="np-controls">
+                <button onclick="togglePlay()" id="btn-pp">⏸</button>
+            </div>
+            <div id="progress-wrap">
+                <span id="time-current">0:00</span>
+                <input type="range" id="progress" min="0" max="100" value="0">
+                <span id="time-total">0:00</span>
+            </div>
+            <div class="np-wave" id="np-wave">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lyrics Modal -->
+    <div id="lyrics-modal" role="dialog" aria-modal="true" aria-labelledby="lm-title">
+        <div class="lm-backdrop" id="lm-backdrop"></div>
+        <div class="lm-card">
+            <div class="lm-header">
+                <div class="lm-header-text">
+                    <span class="lm-eyebrow">♪ Lyrics</span>
+                    <div class="lm-song-title" id="lm-title">—</div>
+                    <div class="lm-artist-name" id="lm-artist">—</div>
+                </div>
+                <button class="lm-close" id="lm-close" aria-label="Close lyrics">✕</button>
+            </div>
+            <div class="lm-body" id="lm-body"></div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+
+    <script>
+
+        const lyricsModal  = document.getElementById('lyrics-modal');
+        const lmBackdrop   = document.getElementById('lm-backdrop');
+        const lmCloseBtn   = document.getElementById('lm-close');
+        const lmTitleEl    = document.getElementById('lm-title');
+        const lmArtistEl   = document.getElementById('lm-artist');
+        const lmBodyEl     = document.getElementById('lm-body');
+
+        function openLyricsModal(event, btn) {
+            event.stopPropagation();
+            const card   = btn.closest('.song-card');
+            const title  = card.getAttribute('data-title')  || '—';
+            const artist = card.getAttribute('data-artist') || '—';
+            const lyricsTemplate = card.querySelector('.lyrics-data');
+            const lyricsText = lyricsTemplate ? lyricsTemplate.innerHTML.trim() : '';
+            lmTitleEl.textContent  = title;
+            lmArtistEl.textContent = artist;
+            const isPlaying = (currentCard === card) && !player.paused;
+            if (!isPlaying) {
+                lmBodyEl.innerHTML = `
+                    <div class="lm-notice">
+                        <span class="lm-notice-icon">♪</span>
+                        <span class="lm-notice-text">Play the song to view lyrics.</span>
+                    </div>`;
+            } else if (!lyricsText) {
+                lmBodyEl.innerHTML = `
+                    <div class="lm-notice">
+                        <span class="lm-notice-icon">🎵</span>
+                        <span class="lm-notice-text">Lyrics coming soon.</span>
+                    </div>`;
+            } else {
+                lmBodyEl.innerHTML = `<div class="lm-lyrics-text">${lyricsText}</div>`;
+            }
+            lyricsModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLyricsModal() {
+            lyricsModal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        lmCloseBtn.addEventListener('click', closeLyricsModal);
+        lmBackdrop.addEventListener('click', closeLyricsModal);
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lyricsModal.classList.contains('open')) {
+                closeLyricsModal();
+            }
+        });
+
+        document.getElementById('name-input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') diveIn();
+        });
+
+        function diveIn() {
+            const name = document.getElementById('name-input').value.trim() || 'there';
+            document.getElementById('user-greeting').textContent = 'hi ' + name + ', welcome to';
+            document.getElementById('picker-question').textContent = 'so, ' + name + ' — how are you feeling today?';
+            const landing = document.getElementById('landing-page');
+            landing.classList.add('exiting');
+            setTimeout(function() {
+                landing.style.display = 'none';
+                const main = document.getElementById('main-content');
+                main.style.display = 'block';
+                requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                        main.classList.add('visible');
+                    });
+                });
+            }, 750);
+        }
+
+        function goToMood(mood) {
+            document.getElementById(mood).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        const player   = document.getElementById('audioPlayer');
+        const bar      = document.getElementById('now-playing-bar');
+        const npTitle  = document.getElementById('np-title');
+        const npArtist = document.getElementById('np-artist');
+        const btnPP    = document.getElementById('btn-pp');
+        const progress = document.getElementById('progress');
+        const timeCur  = document.getElementById('time-current');
+        const timeTot  = document.getElementById('time-total');
+        const npWave   = document.getElementById('np-wave');
+
+        let currentCard = null;
+
+        function fmt(s) {
+            if (!s || isNaN(s)) return '0:00';
+            return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+        }
+
+        function playCard(card) {
+            if (currentCard === card) { togglePlay(); return; }
+            if (currentCard) {
+                currentCard.classList.remove('playing');
+                currentCard.querySelector('.play-overlay-icon').textContent = '▶';
+            }
+            currentCard = card;
+            card.classList.add('playing');
+            card.querySelector('.play-overlay-icon').textContent = '⏸';
+            player.src = card.getAttribute('data-src');
+            player.play();
+            npTitle.textContent  = card.getAttribute('data-title');
+            npArtist.textContent = card.getAttribute('data-artist');
+            bar.classList.add('visible');
+            btnPP.textContent = '⏸';
+            npWave.classList.remove('paused');
+        }
+
+        function togglePlay() {
+            if (!currentCard) return;
+            if (player.paused) {
+                player.play();
+                btnPP.textContent = '⏸';
+                currentCard.querySelector('.play-overlay-icon').textContent = '⏸';
+                currentCard.classList.add('playing');
+                npWave.classList.remove('paused');
+            } else {
+                player.pause();
+                btnPP.textContent = '▶';
+                currentCard.querySelector('.play-overlay-icon').textContent = '▶';
+                npWave.classList.add('paused');
+            }
+        }
+
+        player.addEventListener('timeupdate', function() {
+            if (!player.duration) return;
+            progress.value = (player.currentTime / player.duration) * 100;
+            timeCur.textContent = fmt(player.currentTime);
+            timeTot.textContent = fmt(player.duration);
+        });
+
+        progress.addEventListener('input', function() {
+            if (player.duration) {
+                player.currentTime = (progress.value / 100) * player.duration;
+            }
+        });
+
+        player.addEventListener('ended', function() {
+            btnPP.textContent = '▶';
+            if (currentCard) {
+                currentCard.querySelector('.play-overlay-icon').textContent = '▶';
+            }
+            npWave.classList.add('paused');
+        });
+
+        const sections    = document.querySelectorAll('.mood-section');
+        const navLinks    = document.querySelectorAll('nav a[href^="#"]');
+        const mainContent = document.getElementById('main-content');
+
+        mainContent.addEventListener('scroll', function() {
+            let current = '';
+            sections.forEach(function(section) {
+                if (mainContent.scrollTop >= section.offsetTop - 120) current = section.id;
+            });
+            navLinks.forEach(function(a) {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+            });
+        });
+
+    </script>
+
+</body>
+</html>
